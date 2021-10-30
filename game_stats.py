@@ -17,13 +17,13 @@ class Stats:
 
     def prep(self):
         """ Prepare the text to show """
-        self.text_right = self.font.render(str(3-self.paddle_left.number_lives), 
+        self.text_right = self.font.render(str(self.settings.number_lives-self.paddle_left.number_lives), 
                                            True, self.settings.text_color)
         self.right_rect = self.text_right.get_rect()
         self.right_rect.centerx = 3 * self.screen_rect.centerx / 2
         self.right_rect.centery = self.screen_rect.centery
 
-        self.text_left = self.font.render(str(3-self.paddle_right.number_lives), 
+        self.text_left = self.font.render(str(self.settings.number_lives-self.paddle_right.number_lives), 
                                           True, self.settings.text_color)
 
         self.left_rect = self.text_left.get_rect()

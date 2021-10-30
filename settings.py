@@ -17,7 +17,7 @@ class Settings:
         self.paddle_height = 100
         self.paddle_color = {"right": (155,155,155), "left": (155,155,155)}
         self.paddle_rate = 1.05
-        self.number_lives = 3
+        self.number_lives = 10
 
         self.separetion = 15
         self.text_color = (255,255,255)

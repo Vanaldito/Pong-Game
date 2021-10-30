@@ -9,6 +9,7 @@ from paddle import Paddle
 from game_stats import Stats
 from button import PlayButton
 from winner import Winner
+from ia import IA
 
 class Game:
     """ A class to manage the game """
@@ -31,10 +32,15 @@ class Game:
 
         self.ball = Ball(self)
 
+        self.ia_left = IA(self, "left")
+        self.ia_right = IA(self, "right")
+
         self.play_button = PlayButton(self)
         self.winner = Winner(self)
 
         self.game_active = False
+        self.ia_active_left = False
+        self.ia_active_right = False
 
     def run_game(self):
         """ Init the game loop """
@@ -59,24 +65,24 @@ class Game:
 
     def _check_keydown_events(self, event):
         """ Respond to keydown events """
-        if event.key == K_UP:
+        if event.key == K_UP and not self.ia_active_right:
             self.paddle_right.move_up = True
-        elif event.key == K_DOWN:
+        elif event.key == K_DOWN and not self.ia_active_right:
             self.paddle_right.move_down = True
-        elif event.key == K_w:
+        elif event.key == K_w and not self.ia_active_left:
             self.paddle_left.move_up = True
-        elif event.key == K_s:
+        elif event.key == K_s and not self.ia_active_left:
             self.paddle_left.move_down = True
 
     def _check_keyup_events(self, event):
         """ Respond to keyup events """
-        if event.key == K_UP:
+        if event.key == K_UP and not self.ia_active_right:
             self.paddle_right.move_up = False
-        elif event.key == K_DOWN:
+        elif event.key == K_DOWN and not self.ia_active_right:
             self.paddle_right.move_down = False
-        elif event.key == K_w:
+        elif event.key == K_w and not self.ia_active_left:
             self.paddle_left.move_up = False
-        elif event.key == K_s:
+        elif event.key == K_s and not self.ia_active_left:
             self.paddle_left.move_down = False
 
     def _check_mousebuttondown_events(self, event):
@@ -93,6 +99,12 @@ class Game:
             self.stats.update_stats()
 
             self.ball.update_ball()
+
+            if self.ia_active_left:
+                self.ia_left.move_paddle()
+
+            if self.ia_active_right:
+                self.ia_right.move_paddle()
 
             self.paddle_left.update_paddle()
             self.paddle_right.update_paddle()
